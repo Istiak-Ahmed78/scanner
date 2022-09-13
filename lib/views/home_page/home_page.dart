@@ -1,5 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scanner/data/repos/text_recog.dart';
 import 'package:scanner/globals/icons.dart';
+import 'package:scanner/utils/actions.dart';
+import 'package:scanner/utils/file_operations.dart';
+import 'package:scanner/views/text_view_screen/text_view_screen.dart';
 
 import 'tabs/index.dart';
 
@@ -42,6 +49,17 @@ class _HomePageState extends State<HomePage> {
     _changeNavCurrentIndex(index);
   }
 
+  void scan() async {
+    File? file = await FileOperations.pickImage();
+    if (file == null) return;
+    String? text = await Recognize(file).processText();
+    if (text != null) {
+      Get.to(() => TextViewScreen(text: text));
+      return;
+    }
+    showToast('No Text found. Try again.');
+  }
+
   List<Widget> tabs = const [
     HomeTab(),
     ScannerTab(),
@@ -54,7 +72,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: scan,
         backgroundColor: _floatingButtonColor,
         child: SizedBox(
             height: _iconRadius,
