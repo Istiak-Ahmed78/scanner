@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class TextViewScreen extends StatelessWidget {
   final String text;
@@ -6,8 +6,13 @@ class TextViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(text),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Center(
+          child: SingleChildScrollView(child: SelectableText(text)),
+        ),
+      ),
     );
   }
 }
