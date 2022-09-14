@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scanner/data/repos/recognizing.dart';
 import 'package:scanner/utils/actions.dart';
 import 'package:scanner/utils/file_operations.dart';
+import 'package:scanner/views/text_view_screen/text_view_screen.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -115,7 +117,10 @@ class _ScanTile extends StatelessWidget {
       return;
     }
     String? processedText = await Recognize(file).processText();
-    print('+==============+');
-    print(processedText);
+    if (processedText != null) {
+      Get.to(TextViewScreen(text: processedText));
+    } else {
+      showToast('No text found');
+    }
   }
 }
