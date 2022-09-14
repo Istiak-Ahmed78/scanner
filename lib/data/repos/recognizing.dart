@@ -25,6 +25,7 @@ class Recognize {
   }
 
   String _extractPhoneNumber(String data) {
+    data.replaceAll(' ', '');
     assert(_isPhoneNumber(data));
     if (_isStartWithCountryCode(data)) {
       return data.substring(0, 14);
@@ -33,22 +34,14 @@ class Recognize {
     }
   }
 
-  Future<List<String>> scanPhoneNumbers() async {
+  Future<String?> scanPhoneNumbers() async {
     InputImage image = InputImage.fromFile(_file);
     RecognizedText recognizedText = await TextRecognizer().processImage(image);
-    List<String> numbers = [];
-    List<TextBlock> textBlocks = recognizedText.blocks;
-    for (final textBlock in textBlocks) {
-      for (final lines in textBlock.lines) {
-        for (final element in lines.elements) {
-          String text = element.text;
-          if (_isPhoneNumber(text)) {
-            String phoneNumber = _extractPhoneNumber(text);
-            numbers.add(phoneNumber);
-          }
-        }
-      }
+
+    String text = recognizedText.text;
+    if (_isPhoneNumber(text)) {
+      String phoneNumber = _extractPhoneNumber(text);
+      return phoneNumber;
     }
-    return numbers;
   }
 }

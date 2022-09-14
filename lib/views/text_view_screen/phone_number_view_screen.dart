@@ -2,48 +2,33 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:scanner/data/repos/recognizing.dart';
+import 'package:scanner/utils/common_widgets/index.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class PhoneNumberViewScreen extends StatefulWidget {
+class PhoneNumberViewScreen extends StatelessWidget {
   // final List<String> phoneNumbers;
   final File file;
   const PhoneNumberViewScreen({Key? key, required this.file}) : super(key: key);
 
   @override
-  State<PhoneNumberViewScreen> createState() => _PhoneNumberViewScreenState();
-}
-
-class _PhoneNumberViewScreenState extends State<PhoneNumberViewScreen> {
-  late List<String> numbers;
-  late Widget child;
-  void scan() async {
-    child = const Text('Loading');
-    numbers = await Recognize(widget.file).scanPhoneNumbers();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    child = const Text('No number found.');
-    if (numbers.isNotEmpty) {
-      child = ListView(
-        shrinkWrap: true,
-        children: numbers
-            .map<Widget>((e) => ListTile(
-                  title: Text(e),
-                ))
-            .toList(),
-      );
-    }
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Center(
-          child: child,
+        child: FutureWidget<String?>(
+          future: Recognize(file).scanPhoneNumbers(),
+          loadedDataWidgetBuilder: (data) {
+            late Widget child;
+            if (data == null) {
+              child = const Text('Sorry, no data widget');
+            } else {
+              launchUrl(Uri.parse('tel:+1-555-010-999'));
+              child = SelectableText(data);
+            }
+            return Center(
+              child: child,
+            );
+          },
         ),
       ),
     );
