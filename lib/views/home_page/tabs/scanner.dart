@@ -5,8 +5,6 @@ class ScannerTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Scanner page'),
-    );
+    return const SizedBox.shrink();
   }
 }
