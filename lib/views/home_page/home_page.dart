@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: _navBarBackColor,
           currentIndex: _currentIndex,
           selectedItemColor: _activeIconColor,
-          unselectedItemColor: _inactiveColor,
+          unselectedItemColor: Colors.tealAccent,
           onTap: _onNavTabChanged,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

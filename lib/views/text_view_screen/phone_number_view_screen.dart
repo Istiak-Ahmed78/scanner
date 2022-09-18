@@ -16,19 +16,27 @@ class PhoneNumberViewScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: FutureWidget<String?>(
-          future: Recognize(file).scanPhoneNumbers(),
+          future: Recognize(file).scanPhoneNumber(),
+
+          // TODO: Need a beautiful UI for loading state
+          loadingWidget: const Center(
+            child: Text('Scanning... Please hold on a moment.'),
+          ),
           loadedDataWidgetBuilder: (data) {
             late Widget child;
             if (data == null) {
               child = const Text('Sorry, no data widget');
             } else {
-              launchUrl(Uri.parse('tel:+1-555-010-999'));
+              launchUrl(Uri.parse("tel:$data"));
               child = SelectableText(data);
             }
             return Center(
               child: child,
             );
           },
+          nullDataWidget: const Center(
+            child: Text('Null data available'),
+          ),
         ),
       ),
     );

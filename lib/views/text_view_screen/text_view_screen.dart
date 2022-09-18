@@ -10,7 +10,9 @@ class TextViewScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Center(
-          child: SingleChildScrollView(child: SelectableText(text)),
+          child: SingleChildScrollView(
+            child: SelectableText(text),
+          ),
         ),
       ),
     );
