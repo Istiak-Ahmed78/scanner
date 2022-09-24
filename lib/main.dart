@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      // Thamnks
     );
   }
 }
